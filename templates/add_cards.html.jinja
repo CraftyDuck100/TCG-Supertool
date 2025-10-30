@@ -1,0 +1,11 @@
+{% extends "base.html.jinja" %}
+{% block content %}
+<script src="{{ url_for('static', filename='./scripts/add_cards.js') }}" async></script>
+<form hidden id="form"></form>
+<div class="buttons">
+    <input id="card_input">
+    <button onclick="add_card()">Add Card</button>
+    <button onclick="submit()" id="submit_button">Submit</button>
+</div>
+<div class="add_card_layout" id="add_card_layout"></div>
+{% endblock %}

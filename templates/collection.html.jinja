@@ -1,0 +1,9 @@
+{% extends "base.html.jinja" %}
+{% block content %}
+<script>
+    let card_data = {{ card_data | tojson }};
+</script>
+<script src="{{ url_for('static', filename='./scripts/card_collection.js') }}" async></script>
+<div class="add_card_layout" id="add_card_layout"></div>
+<button onclick="save()" class="save_button" id="save_button">Save Changes</button>
+{% endblock %}

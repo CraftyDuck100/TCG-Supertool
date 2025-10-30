@@ -1,0 +1,103 @@
+.nav_bar {
+    position: fixed;
+    background-color: rgb(0, 161, 148);
+    text-align: center;
+    align-content: center;
+    display: flex;
+    list-style-type: none;
+    line-height: 50px;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    z-index: 999;
+}
+
+.nav_bar a {
+    padding: 1px 6px;
+    margin-right: 10px;
+    border: 1px outset black;
+    border-radius: 3px;
+    color: black;
+    background-color: rgb(0, 255, 234);
+    font-family: Calibri;
+    text-decoration: none;
+    font-size: 20px;
+    min-width: 150px;
+    transition: background-color 0.2s ease;
+}
+
+.nav_bar a:hover {
+    background-color: rgb(0, 167, 153);
+}
+
+.nav_bar * {
+    padding-right: 10px;
+}
+
+.title {
+    font-size: 30px;
+    font-family: Calibri;
+}
+
+body {
+    margin-top: 80px;
+}
+
+.card_quantity {
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    width: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.card_block {
+    margin-top: 10px;
+    position: relative;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 100%;
+    align-content: center;
+    align-items: center;
+    height: 170px;
+    display: flex;
+}
+
+.card_image {
+    padding: 10px;
+    height: 150px;
+    border-left: 1px solid black;
+}
+
+.card_title,
+.card_set {
+    font-family: "Cascadia Code", "Calibri";
+    font-size: 30px;
+    margin: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 50%;
+}
+
+.card_set {
+    font-size: 16px;
+}
+
+.collection_box {
+    height: 100%;
+    width: 300px;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+.save_button {
+    margin-top: 10px;
+}
