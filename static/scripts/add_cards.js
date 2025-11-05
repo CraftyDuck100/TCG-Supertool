@@ -113,13 +113,19 @@ async function submit() {
     await fetch('/add_cards', {
         method: "POST",
         headers: {
-                'Content-Type': 'application/json' // Indicate JSON data
+            'Content-Type': 'application/json' // Indicate JSON data
         },
         body: json_data
     })
     .then(response => response)
     .then(data => {
-        console.log('Success:', data);
+        cards_to_add = [];
+        cards_quantity_to_add = [];
+        let card_layout = document.getElementById("add_card_layout");
+        Array.from(card_layout.children).forEach(child => {
+            card_layout.removeChild(child);
+        });
+        alert("Cards added!");
         // Handle successful response, e.g., update UI
     })
     .catch(error => {

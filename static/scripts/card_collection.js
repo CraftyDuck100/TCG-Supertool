@@ -127,6 +127,7 @@ async function save() {
     .then(data => {
         console.log(data);
         card_data = data;
+        alert("Saved!");
         display_cards();
         // Handle successful response, e.g., update UI
     })

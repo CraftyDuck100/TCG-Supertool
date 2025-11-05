@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, jsonify
-import requests, dotenv, os, enum, sqlite3, caribou, json
+import dotenv, os, enum, sqlite3, json
 
 dotenv.load_dotenv(".env")
 JUSTTCG_KEY = os.getenv("JUSTTCG_KEY")
 POKEMONTCG_KEY = os.getenv("POKEMONTCG_KEY")
 
 from flask import Flask, render_template, request
-import psycopg2
 app = Flask(__name__)
 
 conn = sqlite3.connect('./collection.db')
@@ -89,6 +88,10 @@ def collection():
                 (request.json["card_quantity"][index], str(i['id']), '1', 2, 'Normal')
             )
             index += 1
+        cursor.execute(f"""
+                DELETE FROM cards WHERE quantity <= 0;
+                """
+            )
         cursor.execute("""SELECT * FROM cards""")
         card_data = cursor.fetchall()
         conn.commit()
