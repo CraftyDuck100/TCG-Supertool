@@ -34,14 +34,22 @@ Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 let card_quantity = []
 let old_card_quantity = []
+let card_quantity_to_add = []
 
 async function display_cards() {
     let card_layout = document.getElementById("add_card_layout");
+    Array.from(card_layout.children).forEach(child => {
+        card_layout.removeChild(child);
+    });
+    document.getElementById("save_button").disabled = true;
+    card_quantity = []
+    old_card_quantity = [];
+    card_quantity_to_add = [];
     for (let i = 0; i < card_data.length; i++) {
         card = JSON.parse(card_data[i][3]);
         let new_card_block = document.createElement("div");
         new_card_block.className = "card_block";
-    
+
         let new_card_quantity_box = document.createElement("div");
         new_card_quantity_box.className = "card_quantity";
         let new_card_quantity_add = document.createElement("button");
@@ -53,6 +61,7 @@ async function display_cards() {
         new_card_quantity_add.textContent = "+";
         card_quantity.push(card_data[i][4]);
         old_card_quantity.push(card_data[i][4]);
+        card_quantity_to_add.push(0);
         new_card_quantity.textContent = card_data[i][4];
         new_card_quantity_min.textContent = "-";
         new_card_quantity_add.addEventListener("click", function(){change_quantity(i, 1, new_card_quantity)});
@@ -98,6 +107,7 @@ async function display_cards() {
 function change_quantity(id, value, element) {
     if (card_quantity[id] + value >= 0) {
         card_quantity[id] += value;
+        card_quantity_to_add[id] += value;
         element.textContent = card_quantity[id];
     }
     document.getElementById("save_button").disabled = card_quantity.equals(old_card_quantity);
@@ -105,17 +115,19 @@ function change_quantity(id, value, element) {
 
 async function save() {
     document.getElementById("save_button").disabled = true;
-    let json_data = JSON.stringify({"card_data": cards_to_add, "card_quantity": cards_quantity_to_add});
-    await fetch('/add_cards', {
+    let json_data = JSON.stringify({"card_data": card_data.map(i => JSON.parse(i[3])), "card_quantity": card_quantity_to_add.map(i => parseInt(i))});
+    await fetch('/collection', {
         method: "POST",
         headers: {
                 'Content-Type': 'application/json' // Indicate JSON data
         },
         body: json_data
     })
-    .then(response => response)
+    .then(response => {return response.json()})
     .then(data => {
-        console.log('Success:', data);
+        console.log(data);
+        card_data = data;
+        display_cards();
         // Handle successful response, e.g., update UI
     })
     .catch(error => {
@@ -123,7 +135,5 @@ async function save() {
         // Handle errors, e.g., display an error message
     });
 }
-console.log(card_data[0]);
-console.log(JSON.parse(card_data[0][3]));
 
 display_cards();

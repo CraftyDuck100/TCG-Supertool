@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import requests, dotenv, os, enum, sqlite3, caribou, json
 
 dotenv.load_dotenv(".env")
@@ -59,13 +59,14 @@ def add_cards():
         cursor = conn.cursor()
         index = 0
         for i in request.json["card_data"]:
-            cursor.execute(f"""
-                INSERT INTO cards (card_name, card_id, card_data, quantity, condition, printing, notes, price_data, last_updated, last_updated_price)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT (card_id, notes, condition, printing) DO UPDATE SET quantity = quantity + excluded.quantity;
-                """,
-                (str(i['name']), str(i['id']), json.dumps(i), request.json["card_quantity"][index], 2, 'Normal', '1', json.dumps({"hi":1}), 0, 0)
-            )
+            if request.json["card_quantity"][index] > 0:
+                cursor.execute(f"""
+                    INSERT INTO cards (card_name, card_id, card_data, quantity, condition, printing, notes, price_data, last_updated, last_updated_price)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT (card_id, notes, condition, printing) DO UPDATE SET quantity = quantity + excluded.quantity;
+                    """,
+                    (str(i['name']), str(i['id']), json.dumps(i), request.json["card_quantity"][index], 2, 'Normal', '1', json.dumps({"hi":1}), 0, 0)
+                )
             index += 1
         conn.commit()
         return render_template("home.html.jinja")
@@ -78,7 +79,24 @@ def collection():
     cursor.execute("""SELECT * FROM cards""")
     card_data = cursor.fetchall()
     if request.method == 'POST':
-            return render_template("submission_success.html")
+        conn = sqlite3.connect('./collection.db')
+        cursor = conn.cursor()
+        index = 0
+        for i in request.json["card_data"]:
+            cursor.execute(f"""
+                UPDATE cards SET quantity = quantity + ? WHERE card_id = ? AND notes = ? AND condition = ? AND printing = ?;
+                """,
+                (request.json["card_quantity"][index], str(i['id']), '1', 2, 'Normal')
+            )
+            index += 1
+        cursor.execute("""SELECT * FROM cards""")
+        card_data = cursor.fetchall()
+        conn.commit()
+        return app.response_class(
+            response=json.dumps(card_data),
+            status=200,
+            mimetype='application/json'
+        )
     conn.close()
     return render_template("collection.html.jinja", card_data=card_data)
 
