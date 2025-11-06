@@ -8,11 +8,16 @@
 <div id="pagnation" class="pagnation">
     <span class="sort_by_label">Sort By: </span>
     <div class="dropdown">
-        <button class="sort_by" id="sort_by" onclick="open_sort_menu()">Default</button>
+        <button class="sort_by" id="sort_by" onclick="open_sort_menu()">Date Added</button>
         <div class="dropdown_content" id="sort_by_dropdown">
-            <button>Date Added</button>
+            <button class="pagnate_button" onclick="sort(this)">Date Added</button>
+            <button class="pagnate_button" onclick="sort(this)">Quantity</button>
+            <button class="pagnate_button" onclick="sort(this)">Card Name</button>
+            <button class="pagnate_button" onclick="sort(this)">ID</button>
         </div>
     </div>
+    <span style="white-space: pre-wrap; font-family: Cascadia Code, Calibri"> </span>
+    <button class="sort_direction" id="sort_direction" onclick="change_direction()" value="Ascending">Ascending</button>
 </div>
 <div class="add_card_layout" id="add_card_layout"></div>
 <button onclick="save()" class="save_button" id="save_button">Save Changes</button>
