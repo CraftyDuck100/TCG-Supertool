@@ -2,8 +2,18 @@
 {% block content %}
 <script>
     let card_data = {{ card_data | tojson }};
+    document.body.style.marginTop = "116px";
 </script>
 <script src="{{ url_for('static', filename='./scripts/card_collection.js') }}" async></script>
+<div id="pagnation" class="pagnation">
+    <span class="sort_by_label">Sort By: </span>
+    <div class="dropdown">
+        <button class="sort_by" id="sort_by" onclick="open_sort_menu()">Default</button>
+        <div class="dropdown_content" id="sort_by_dropdown">
+            <button>Date Added</button>
+        </div>
+    </div>
+</div>
 <div class="add_card_layout" id="add_card_layout"></div>
 <button onclick="save()" class="save_button" id="save_button">Save Changes</button>
 {% endblock %}

@@ -49,6 +49,7 @@ async function display_cards() {
         card = JSON.parse(card_data[i][3]);
         let new_card_block = document.createElement("div");
         new_card_block.className = "card_block";
+        new_card_block.id = `card_block${card_data[i][0]}`
 
         let new_card_quantity_box = document.createElement("div");
         new_card_quantity_box.className = "card_quantity";
@@ -112,6 +113,23 @@ function change_quantity(id, value, element) {
     }
     document.getElementById("save_button").disabled = card_quantity.equals(old_card_quantity);
 }
+
+function open_sort_menu() {
+    document.getElementById("sort_by_dropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.sort_by')) {
+    var dropdowns = document.getElementsByClassName("dropdown_content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+} 
 
 async function save() {
     document.getElementById("save_button").disabled = true;
