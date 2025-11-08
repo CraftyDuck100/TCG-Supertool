@@ -29,12 +29,95 @@
     transition: background-color 0.2s ease;
 }
 
+.pagnation {
+    position: fixed;
+    top: 74px;
+    align-content: center;
+    left: 0;
+    margin: 0;
+    display: flex;
+    text-align: center;
+    /* overflow: hidden; */
+    width: 100%;
+    padding: 10px;
+    z-index: 999;
+    background-color: #191b20;
+}
+
+.dropdown_content {
+    display: none;
+    position: absolute;
+    background-color: transparent;
+    height: 100%;
+    /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
+    z-index: 1;
+}
+
+.pagnate_button {
+    width: 100%;
+    white-space: nowrap;
+    border: 2px outset #002220;
+    color: rgb(115, 232, 253);
+    border-radius: 2px;
+    font-family: "Cascadia Code", "Calibri";
+    background: #003f3b;
+}
+
+.sort_by {
+    color: rgb(115, 232, 253);
+    font-family: "Cascadia Code", "Calibri";
+    background: none;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.sort_by:hover {
+    color: rgb(56, 133, 146);
+}
+
+.sort_direction {
+    font-family: "Cascadia Code", "Calibri";
+    background: none;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    font-size: 16px;
+    cursor: pointer;
+    &[value="Ascending"] {
+        color: rgb(68, 255, 108);
+        &:hover {
+            color: rgb(38, 167, 66);
+        }
+    }
+    &[value="Descending"] {
+        color: rgb(255, 68, 68);
+        &:hover {
+            color: rgb(151, 42, 42);
+        }
+    }
+}
+
+.sort_by_label {
+    color: rgb(241, 253, 255);
+    font-family: "Cascadia Code", "Calibri";
+    font-size: 16px;
+    white-space: pre-wrap;
+}
+
 .nav_bar a:hover {
     background-color: rgb(0, 167, 153);
 }
 
 .nav_bar * {
     padding-right: 10px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
 }
 
 .title {
@@ -44,6 +127,11 @@
 
 body {
     margin-top: 80px;
+    background-color: #191b20;
+}
+
+.show {
+    display:block;
 }
 
 .card_quantity {
@@ -52,25 +140,28 @@ body {
     justify-content: center;
     width: 30px;
     margin-left: 10px;
+    color: rgb(241, 253, 255);
+    font-family: "Cascadia Code", "Calibri";
     margin-right: 10px;
 }
 
 .card_block {
     margin-top: 10px;
     position: relative;
-    border: 1px solid black;
+    border: 1px solid rgb(82, 149, 156);
     border-radius: 10px;
     width: 100%;
     align-content: center;
     align-items: center;
     height: 170px;
     display: flex;
+    background-color: #2e3138;
 }
 
 .card_image {
     padding: 10px;
     height: 150px;
-    border-left: 1px solid black;
+    border-left: 1px solid rgb(82, 149, 156)
 }
 
 .card_title,
@@ -81,6 +172,7 @@ body {
     margin-left: 10px;
     margin-right: 10px;
     height: 50%;
+    color: rgb(241, 253, 255);
 }
 
 .card_set {
@@ -95,8 +187,8 @@ body {
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
+    border-right: 1px solid rgb(82, 149, 156);
+    border-left: 1px solid rgb(82, 149, 156);
 }
 .save_button {
     margin-top: 10px;

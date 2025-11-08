@@ -35,6 +35,7 @@ Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 let card_quantity = []
 let old_card_quantity = []
 let card_quantity_to_add = []
+let sort_method = "Date Added"
 
 async function display_cards() {
     let card_layout = document.getElementById("add_card_layout");
@@ -49,6 +50,7 @@ async function display_cards() {
         card = JSON.parse(card_data[i][3]);
         let new_card_block = document.createElement("div");
         new_card_block.className = "card_block";
+        new_card_block.id = `card_block${card_data[i][0]}`
 
         let new_card_quantity_box = document.createElement("div");
         new_card_quantity_box.className = "card_quantity";
@@ -96,12 +98,7 @@ async function display_cards() {
     
         card_layout.appendChild(new_card_block);
     }
-
-    // if (cards_to_add.length > 0) {
-    //     document.getElementById("submit_button").disabled = false;
-    // } else {
-    //     document.getElementById("submit_button").disabled = true;
-    // }
+    sort_cards();
 }
 
 function change_quantity(id, value, element) {
@@ -112,6 +109,71 @@ function change_quantity(id, value, element) {
     }
     document.getElementById("save_button").disabled = card_quantity.equals(old_card_quantity);
 }
+
+function open_sort_menu() {
+    document.getElementById("sort_by_dropdown").classList.toggle("show");
+}
+
+function change_direction() {
+    element = document.getElementById("sort_direction");
+    [element.value, element.textContent] = (element.value == "Ascending") ? ["Descending", "Descending"] : ["Ascending", "Ascending"];
+    sort_cards();
+}
+
+function sort(element) {
+    sort_method = element.textContent;
+    document.getElementById("sort_by").textContent = sort_method;
+    sort_cards();
+}
+
+function sort_cards() {
+    card_layout = document.getElementById("add_card_layout");
+    let sorted_children = [];
+    switch (sort_method) {
+        case "Date Added":
+            sorted_children = Array.from(card_layout.children).sort((a, b) =>
+                parseInt(String(a.id).split("card_block")[1]) - parseInt(String(b.id).split("card_block")[1])
+            )
+            break;
+        case "Quantity":
+            sorted_children = Array.from(card_layout.children).sort((a, b) =>
+                parseInt(card_data.find(x1 => x1[0] == String(a.id).split("card_block")[1])[4]) - parseInt(card_data.find(x2 => x2[0] == String(b.id).split("card_block")[1])[4])
+            )
+            break;
+        case "Card Name":
+            sorted_children = Array.from(card_layout.children).sort((a, b) =>
+                String(JSON.parse(card_data.find(x1 => x1[0] == String(a.id).split("card_block")[1])[3]).name)
+                .localeCompare(String(JSON.parse(card_data.find(x2 => x2[0] == String(b.id).split("card_block")[1])[3]).name))
+            )
+            break;
+        case "ID":
+            sorted_children = Array.from(card_layout.children).sort((a, b) =>
+                String(JSON.parse(card_data.find(x1 => x1[0] == String(a.id).split("card_block")[1])[3]).id)
+                .localeCompare(String(JSON.parse(card_data.find(x2 => x2[0] == String(b.id).split("card_block")[1])[3]).id))
+            )
+            break;
+        default:
+            sorted_children = Array.from(card_layout.children).sort((a, b) =>
+                parseInt(String(a.id).split("card_block")[1]) - parseInt(String(b.id).split("card_block")[1])
+            )
+            break;
+    }
+    card_layout.replaceChildren(...((document.getElementById("sort_direction").textContent == "Ascending") ? sorted_children : sorted_children.reverse()));
+}
+
+
+window.onclick = function(event) {
+  if (!event.target.matches('.sort_by')) {
+    var dropdowns = document.getElementsByClassName("dropdown_content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+} 
 
 async function save() {
     document.getElementById("save_button").disabled = true;

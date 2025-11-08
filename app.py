@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, jsonify
 import dotenv, os, enum, sqlite3, json
 
 dotenv.load_dotenv(".env")
-JUSTTCG_KEY = os.getenv("JUSTTCG_KEY")
-POKEMONTCG_KEY = os.getenv("POKEMONTCG_KEY")
+# JUSTTCG_KEY = os.getenv("JUSTTCG_KEY")
+# POKEMONTCG_KEY = os.getenv("POKEMONTCG_KEY")
 
 from flask import Flask, render_template, request
 app = Flask(__name__)
